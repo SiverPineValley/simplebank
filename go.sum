@@ -1,3 +1,5 @@
+github.com/SiverPineValley/simplebank v0.0.0-20221016132729-40fb88dfd732 h1:SDF2JzH3JTaRomA1Sa+duyeyFKDmtiVyy3Y/ozYXjB8=
+github.com/SiverPineValley/simplebank v0.0.0-20221016132729-40fb88dfd732/go.mod h1:mVKlj8bY4VlG1UzXC7kZeAN7hId5UiglUcXkSTWKcV4=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
