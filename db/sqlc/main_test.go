@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 	"testing"
-	"context"
 
 	_ "github.com/lib/pq"
 )
