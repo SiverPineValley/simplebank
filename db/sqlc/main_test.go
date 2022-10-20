@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"testing"
+	"context"
 
 	_ "github.com/lib/pq"
 )
@@ -15,6 +16,8 @@ var testDB *sql.DB
 const (
 	dbDriver = "postgres"
 	dbSource = "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable"
+	//dbDriver = "mysql"
+	//dbSource = "mysql://root:secret@tcp(localhost:3306)/simple_bank?multiStatements=true"
 	)
 
 func TestMain(m *testing.M) {
@@ -26,6 +29,6 @@ func TestMain(m *testing.M) {
 	}
 
 	testQueries = New(testDB)
-
-	os.Exit(m.Run())
+	exitCode := m.Run()
+	os.Exit(exitCode)
 }

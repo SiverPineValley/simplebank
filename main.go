@@ -1,7 +1,7 @@
 package simplebank
 
 import (
-	_ "github.com/SiverPineValley/simplebank/util"
+	_ "simplebank/util"
 )
 
 func main() {
