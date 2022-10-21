@@ -31,6 +31,9 @@ msup:
 msdown:
 	migrate -path db/migration/mysql -database "$(MS_URL)" -verbose down
 
+mock:
+	mockgen --package mockdb --destination db/mock/store.go simplebank/db/sqlc Store
+
 sqlc:
 	sqlc generate
 
