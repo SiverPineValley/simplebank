@@ -20,16 +20,16 @@ dropms:
 	docker exec -it mysql mysqladmin --user=root --password=secret drop simple_bank
 
 pgup:
-	migrate -path db/migration -database "$(PG_URL)" -verbose up
+	migrate -path db/migration/postgresql -database "$(PG_URL)" -verbose up
 
 pgdown:
-	migrate -path db/migration -database "$(PG_URL)" -verbose down
+	migrate -path db/migration/postgresql -database "$(PG_URL)" -verbose down
 
 msup:
-	migrate -path db/migration -database "$(MS_URL)" -verbose up
+	migrate -path db/migration/mysql -database "$(MS_URL)" -verbose up
 
 msdown:
-	migrate -path db/migration -database "$(MS_URL)" -verbose down
+	migrate -path db/migration/mysql -database "$(MS_URL)" -verbose down
 
 sqlc:
 	sqlc generate
