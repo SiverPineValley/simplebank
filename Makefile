@@ -34,7 +34,10 @@ msdown:
 sqlc:
 	sqlc generate
 
+server:
+	go run main.go
+
 test:
 	go test -v -cover ./...
 
-.PHONY: postgres mysql createpg createms droppg dropms pgup pgdown msup msdown sqlc test
+.PHONY: postgres mysql createpg createms droppg dropms pgup pgdown msup msdown sqlc test server
