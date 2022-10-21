@@ -10,7 +10,7 @@ CREATE TABLE accounts
 CREATE TABLE entries
 (
     id         serial PRIMARY KEY,
-    account_id bigint UNSIGNED NOT NULL,
+    account_id bigint    NOT NULL,
     amount     bigint    NOT NULL COMMENT 'can be negative or positive',
     created_at timestamp NOT NULL DEFAULT (now())
 );
@@ -18,8 +18,8 @@ CREATE TABLE entries
 CREATE TABLE transfers
 (
     id              serial PRIMARY KEY,
-    from_account_id bigint UNSIGNED NOT NULL,
-    to_account_id   bigint UNSIGNED NOT NULL,
+    from_account_id bigint    NOT NULL,
+    to_account_id   bigint    NOT NULL,
     amount          bigint    NOT NULL COMMENT 'must be positive',
     created_at      timestamp NOT NULL DEFAULT (now())
 );
@@ -34,16 +34,16 @@ ALTER TABLE transfers
     ADD FOREIGN KEY (to_account_id) REFERENCES accounts (id);
 
 CREATE
-INDEX index_accounts_owner ON accounts (owner);
+    INDEX index_accounts_owner ON accounts (owner);
 
 CREATE
-INDEX index_entries_account_id ON entries (account_id);
+    INDEX index_entries_account_id ON entries (account_id);
 
 CREATE
-INDEX index_transfers_from_account_id ON transfers (from_account_id);
+    INDEX index_transfers_from_account_id ON transfers (from_account_id);
 
 CREATE
-INDEX index_transfers_to_account_id ON transfers (to_account_id);
+    INDEX index_transfers_to_account_id ON transfers (to_account_id);
 
 CREATE
-INDEX index_transfers_from_to_account_id ON transfers (from_account_id, to_account_id);
+    INDEX index_transfers_from_to_account_id ON transfers (from_account_id, to_account_id);
