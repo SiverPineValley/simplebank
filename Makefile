@@ -22,8 +22,14 @@ dropms:
 pgup:
 	migrate -path db/migration/postgresql -database "$(PG_URL)" -verbose up
 
+pgup1:
+	migrate -path db/migration/postgresql -database "$(PG_URL)" -verbose up 1
+
 pgdown:
 	migrate -path db/migration/postgresql -database "$(PG_URL)" -verbose down
+
+pgdown1:
+	migrate -path db/migration/postgresql -database "$(PG_URL)" -verbose down 1
 
 msup:
 	migrate -path db/migration/mysql -database "$(MS_URL)" -verbose up
@@ -43,4 +49,4 @@ server:
 test:
 	go test -v -cover ./...
 
-.PHONY: postgres mysql createpg createms droppg dropms pgup pgdown msup msdown sqlc test server
+.PHONY: postgres mysql createpg createms droppg dropms pgup pgdown pgdown1 msup msdown sqlc test server

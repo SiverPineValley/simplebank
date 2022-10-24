@@ -151,19 +151,20 @@ func (q *Queries) ListAccounts(ctx context.Context, arg ListAccountsParams) ([]A
 	return items, nil
 }
 
-const listAccountsAll = `-- name: ListAllAccounts :many
-SELECT * FROM accounts
+const listAllAccounts = `-- name: ListAllAccounts :many
+SELECT id, owner, balance, currency, created_at FROM accounts
 ORDER BY id
     LIMIT $1
-OFFSET $2`
+OFFSET $2
+`
 
-type ListAccountsAllParams struct {
-	Limit  int32  `json:"limit"`
-	Offset int32  `json:"offset"`
+type ListAllAccountsParams struct {
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
 }
 
-func (q *Queries) ListAccountsAll(ctx context.Context, arg ListAccountsAllParams) ([]Account, error) {
-	rows, err := q.db.QueryContext(ctx, listAccountsAll, arg.Limit, arg.Offset)
+func (q *Queries) ListAllAccounts(ctx context.Context, arg ListAllAccountsParams) ([]Account, error) {
+	rows, err := q.db.QueryContext(ctx, listAllAccounts, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
