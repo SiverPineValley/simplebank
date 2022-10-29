@@ -1,36 +1,52 @@
 package api
 
 import (
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
 	db "simplebank/db/sqlc"
+	"simplebank/token"
+	"simplebank/util"
 )
 
 // Server serves HTTP requests for our banking service.
 type Server struct {
-	store  db.Store
-	router *gin.Engine
+	store      db.Store
+	config     util.Config
+	tokenMaker token.Maker
+	router     *gin.Engine
 }
 
-func NewServer(store db.Store) (server *Server) {
-	server = &Server{store: store}
-	router := gin.Default()
-
+func NewServer(config util.Config, store db.Store) (*Server, error) {
+	tokenMaker, err := token.NewPasetoMaker(config.TokenSymmetricKey)
+	if err != nil {
+		return nil, fmt.Errorf("cannot create token maker: %w", err)
+	}
+	server := &Server{store: store, config: config, tokenMaker: tokenMaker}
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
 		v.RegisterValidation("currency", validCurrency)
 	}
 
-	router.POST("/accounts", server.createAccount)
-	router.GET("/accounts/:id", server.getAccount)
-	router.GET("/accounts", server.getListAccount)
+	server.setupRouter()
+	return server, nil
+}
 
-	router.POST("/transfers", server.createTransfer)
+func (server *Server) setupRouter() {
+	router := gin.Default()
+
 	router.POST("/users", server.createUser)
-	router.GET("/users/:username", server.getUser)
+	router.POST("/users/login", server.loginUser)
 
+	authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
+
+	authRoutes.POST("/accounts", server.createAccount)
+	authRoutes.GET("/accounts/:id", server.getAccount)
+	authRoutes.GET("/accounts", server.getListAccount)
+	authRoutes.POST("/transfers", server.createTransfer)
+	authRoutes.GET("/users/:username", server.getUser)
 	server.router = router
-	return server
 }
 
 // Start runs the HTTP server on a specific address.
@@ -39,5 +55,5 @@ func (server *Server) Start(address string) error {
 }
 
 func errorResponse(err error) gin.H {
-	return gin.H{"error":err.Error()}
+	return gin.H{"error": err.Error()}
 }
