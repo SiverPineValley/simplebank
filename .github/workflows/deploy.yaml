@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
 
   steps:
-  - name: Build and publish image to GCR
-    uses: carbonchain/action-container-registry@v1.1
-    with:
-      project_id: kubernetes-practice-362903
-      dockerfile: Dockerfile
-      image: gcr.io/kubernetes-practice-362903/simplebank
-      service_account_key: ${{ secrets.GCLOUD_AUTH }}
+    - name: Build and publish image to GCR
+      uses: carbonchain/action-container-registry@v1.1
+      with:
+        project_id: kubernetes-practice-362903
+        dockerfile: Dockerfile
+        image: gcr.io/kubernetes-practice-362903/simplebank
+        service_account_key: ${{ secrets.GCLOUD_AUTH }}
