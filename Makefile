@@ -2,10 +2,10 @@ PG_URL=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
 MS_URL=mysql://root:secret@tcp(localhost:3306)/simple_bank?multiStatements=true
 
 postgres:
-	docker run --name postgres -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:14.5-alpine
+	docker run --name postgres --network bank-network -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:14.5-alpine
 
 mysql:
-	docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=secret -d mysql:8.0.31
+	docker run --name mysql --network bank-network -p 3306:3306 -e MYSQL_ROOT_PASSWORD=secret -d mysql:8.0.31
 
 createpg:
 	docker exec -it postgres createdb --username=root --owner=root simple_bank
