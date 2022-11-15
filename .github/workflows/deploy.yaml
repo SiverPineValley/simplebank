@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Load secrets and save to app.env
-        run: gcloud secrets versions access 1 --secret=simplebank_secret --out-file=./app.env
+        run: gcloud secrets versions access 1 --secret=simplebank_secret --out-file=app.env --project=kubernetes-practice-362903
 
       - name: Build and publish image to GCR
         uses: carbonchain/action-container-registry@v1.1
