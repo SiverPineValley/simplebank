@@ -17,12 +17,25 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Load secrets and save to app.env
-        run: gcloud secrets versions access 1 --secret="simplebank_secret" --out-file="app.env"
+        run: gcloud secrets versions access 1 --secret=simplebank_secret --out-file=./app.env
 
       - name: Build and publish image to GCR
         uses: carbonchain/action-container-registry@v1.1
         with:
           project_id: kubernetes-practice-362903
           dockerfile: Dockerfile
-          image: gcr.io/kubernetes-practice-362903/simplebank
+          image: asia.gcr.io/kubernetes-practice-362903/simplebank
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
+
+#      - name: Deploy to GKE
+#        uses: actions/docker-build-push-gcr-update-gke-deployment-action@v1.4
+#        with:
+#          service_account: ${{ secrests.GCLOUD_AUTH}}
+#          zone: 'asia-northeast3'
+#          project_id: 'kubernetes-practice-362903'
+#          registry: 'asia.gcr.io'
+#          image_name: 'simplebank'
+#          cluster: 'simplebank'
+#          namespace: 'default'
+#          deployment: 'dev'
+#          container: 'dev'
