@@ -16,6 +16,13 @@ jobs:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v3
 
+      - id: 'Authentication to GCS'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+
       - name: Load secrets and save to app.env
         run: gcloud secrets versions access 1 --secret=simplebank_secret --out-file=app.env --project=kubernetes-practice-362903
 
@@ -31,7 +38,7 @@ jobs:
 #        uses: actions/docker-build-push-gcr-update-gke-deployment-action@v1.4
 #        with:
 #          service_account: ${{ secrests.GCLOUD_AUTH}}
-#          zone: 'asia-northeast3'
+#          zone: 'asia-northeast3-b'
 #          project_id: 'kubernetes-practice-362903'
 #          registry: 'asia.gcr.io'
 #          image_name: 'simplebank'
