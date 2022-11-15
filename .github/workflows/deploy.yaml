@@ -12,6 +12,10 @@ jobs:
     name: Build image
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
     steps:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v3
