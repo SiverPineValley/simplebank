@@ -12,11 +12,41 @@ jobs:
     name: Build image
     runs-on: ubuntu-latest
 
+#    permissions:
+#      contents: 'read'
+#      id-token: 'write'
+
     steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v3
+
+#      - id: 'auth'
+#        name: 'Authenticate to Google Cloud'
+#        uses: 'google-github-actions/auth@v1'
+#        with:
+#          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+#          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+#
+#      - name: Load secrets and save to app.env
+#        run: gcloud secrets versions access 1 --secret=simplebank_secret --out-file=app.env --project=kubernetes-practice-362903
+
       - name: Build and publish image to GCR
         uses: carbonchain/action-container-registry@v1.1
         with:
           project_id: kubernetes-practice-362903
           dockerfile: Dockerfile
-          image: gcr.io/kubernetes-practice-362903/simplebank
+          image: asia.gcr.io/kubernetes-practice-362903/simplebank
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
+
+#      - name: Deploy to GKE
+#        uses: actions/docker-build-push-gcr-update-gke-deployment-action@v1.4
+#        with:
+#          service_account: ${{ secrests.GCLOUD_AUTH}}
+#          zone: 'asia-northeast3-b'
+#          project_id: 'kubernetes-practice-362903'
+#          registry: 'asia.gcr.io'
+#          image_name: 'simplebank'
+#          cluster: 'simplebank'
+#          namespace: 'default'
+#          deployment: 'dev'
+#          container: 'dev'
