@@ -49,4 +49,10 @@ server:
 test:
 	go test -v -cover ./...
 
-.PHONY: postgres mysql createpg createms droppg dropms pgup pgdown pgdown1 msup msdown sqlc test server
+db_docs:
+	dbdocs build doc/db.dbml
+
+db_schema:
+	dbml2sql --postgres -o doc/schema.sql doc/db.dbml
+
+.PHONY: postgres mysql createpg createms droppg dropms pgup pgdown pgdown1 msup msdown sqlc test server db_docs db_schema
