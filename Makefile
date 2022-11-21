@@ -49,4 +49,16 @@ server:
 test:
 	go test -v -cover ./...
 
-.PHONY: postgres mysql createpg createms droppg dropms pgup pgdown pgdown1 msup msdown sqlc test server
+db_docs:
+	dbdocs build doc/db.dbml
+
+db_schema:
+	dbml2sql --postgres -o doc/schema.sql doc/db.dbml
+
+proto:
+	rm -rf pb/*.go
+	protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative \
+	--go-grpc_out=pb --go-grpc_opt=paths=source_relative \
+	proto/*.proto
+
+.PHONY: postgres mysql createpg createms droppg dropms pgup pgdown pgdown1 msup msdown sqlc test server db_docs db_schema proto
